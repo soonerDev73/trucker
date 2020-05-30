@@ -1,0 +1,13 @@
+<%- include("partials/header") %>
+
+
+<% trucks.forEach(function(truck){ %>
+    <div>
+       <h4><%= truck.name %></h4> 
+       <img src="<%= truck.image %>">
+       <p><%= truck.foodType %></p>
+    </div>
+<% }) %>
+
+
+<%- include("partials/footer") %>
