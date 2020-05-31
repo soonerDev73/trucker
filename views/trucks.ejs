@@ -1,13 +1,38 @@
 <%- include("partials/header") %>
 
 
-<% trucks.forEach(function(truck){ %>
-    <div>
-       <h4><%= truck.name %></h4> 
-       <img src="<%= truck.image %>">
-       <p><%= truck.foodType %></p>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Trucker2020</h1>
+            <p>
+                <a class="btn btn-primary btn-large" href="/trucks/new">Add New Truck</a>
+            </p>
+        </div>
+    </header>
+
+
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <% trucks.forEach(function(truck){ %>
+
+        <div class="col-md-3 col-sm-6">
+
+
+            <div class="card">
+                <img src="<%= truck.image %>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><%= truck.name %></h5>
+                    <p class="card-text"><%= truck.foodType %></p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <% }) %>
     </div>
-<% }) %>
+</div>
+
+
 
 
 <%- include("partials/footer") %>
