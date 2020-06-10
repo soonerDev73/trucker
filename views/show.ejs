@@ -4,7 +4,11 @@
 <img src="<%= truck.image %>">
 <h4>Cuisine: <%= truck.foodType %></h4>
 <p><%= truck.description %></p>
-
+<div class="container">
+    <% truck.comments.forEach(function(comment){   %>
+        <p><strong><%= comment.author %></strong> - <%= comment.text %> </p>
+   <% }) %>
+</div>
 
 
 <%- include("partials/footer") %>

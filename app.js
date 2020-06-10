@@ -2,7 +2,12 @@ var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
 var bodyParser = require("body-parser");
+var Truck = require('./models/trucks');
+var seedDB = require("./seeds");
+var Comment = require("./models/comment");
 
+
+//seedDB();
 mongoose.set('useUnifiedTopology', true);
 mongoose.connect("mongodb://localhost/trucker_2020", { useNewUrlParser: true });
 
@@ -12,30 +17,7 @@ app.use(bodyParser.urlencoded({
 app.set("view engine", "ejs");
 
 
-var truckSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    foodType: String,
-    description: String,
-    userType: String,
-    location: String,
-    date: Date,
-    time: Date,
-    menu: Array,
-    announcement: String,
-    ownerFirstName: String,
-    ownerLastName: String,
-    password: String,
-    accountType: String,
-    approved: Boolean,
-    facebook: String,
-    twitter: String,
-    instagram: String,
-    rating: Number,
-    restricted: Boolean
-});
 
-var Truck = mongoose.model("Truck", truckSchema);
 
 /*Truck.create(
     {
@@ -65,52 +47,7 @@ SHOW       /trucks/:id  GET      Shows info about one truck
 
 */
 
-var trucks = [{
-        name: "Big Truck Tacos",
-        image: "https://i.pinimg.com/564x/71/c9/57/71c95762866c0db9e54f0833ecc9f412.jpg",
-        foodType: "Mexican"
-    },
-    {
-        name: "Taste of Soul",
-        image: "https://rh-vendoradmin.s3.amazonaws.com/trucks/original/3363/500f54fb-d050-4226-a66f-2ad346204482.jpeg",
-        foodType: "Chinese"
-    },
-    {
-        name: "Fiesta House",
-        image: "https://previews.123rf.com/images/yustus/yustus1802/yustus180200017/95666921-flat-design-vector-cartoon-colorful-illustration-of-food-truck-traditional-mexican-street-cuisine-au.jpg",
-        foodType: "Mexican"
-    },
-    {
-        name: "Big Truck Tacos",
-        image: "https://i.pinimg.com/564x/71/c9/57/71c95762866c0db9e54f0833ecc9f412.jpg",
-        foodType: "Mexican"
-    },
-    {
-        name: "Taste of Soul",
-        image: "https://rh-vendoradmin.s3.amazonaws.com/trucks/original/3363/500f54fb-d050-4226-a66f-2ad346204482.jpeg",
-        foodType: "Chinese"
-    },
-    {
-        name: "Fiesta House",
-        image: "https://previews.123rf.com/images/yustus/yustus1802/yustus180200017/95666921-flat-design-vector-cartoon-colorful-illustration-of-food-truck-traditional-mexican-street-cuisine-au.jpg",
-        foodType: "Mexican"
-    },
-    {
-        name: "Big Truck Tacos",
-        image: "https://i.pinimg.com/564x/71/c9/57/71c95762866c0db9e54f0833ecc9f412.jpg",
-        foodType: "Mexican"
-    },
-    {
-        name: "Taste of Soul",
-        image: "https://rh-vendoradmin.s3.amazonaws.com/trucks/original/3363/500f54fb-d050-4226-a66f-2ad346204482.jpeg",
-        foodType: "Chinese"
-    },
-    {
-        name: "Fiesta House",
-        image: "https://previews.123rf.com/images/yustus/yustus1802/yustus180200017/95666921-flat-design-vector-cartoon-colorful-illustration-of-food-truck-traditional-mexican-street-cuisine-au.jpg",
-        foodType: "Mexican"
-    }
-];
+
 
 app.get("/", function (req, res) {
     res.render("landing");
@@ -165,7 +102,7 @@ app.get("/trucks/new", function (req, res) {
 //Show more info about one truck
 app.get("/trucks/:id", function(req, res){
     //find the truck with provided ID
-    Truck.findById(req.params.id, function(err, foundTruck){
+    Truck.findById(req.params.id).populate("comments").exec(function(err, foundTruck){
         if(err){
             console.log(err);
         } else {
